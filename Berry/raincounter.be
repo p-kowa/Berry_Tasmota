@@ -55,10 +55,13 @@ def mqtt_discovery()
             "\"unit_of_meas\":\"mm\"," +
             "\"dev_cla\":\"precipitation\"," + 
             "\"stat_cla\":\"%s\"," +
+            "\"sug_dsp_prc\":2," +
             "\"val_tpl\":\"{{value_json.Rain_%s | default(0)}}\"," +
-            "\"avty\":[{\"t\":\"tele/%s/LWT\",\"pl_avail\":\"Online\",\"pl_not_avail\":\"Offline\"}]," +
+            "\"avty_t\":\"tele/%s/LWT\"," +
+            "\"pl_avail\":\"Online\"," +
+            "\"pl_not_avail\":\"Offline\"," +
             "\"uniq_id\":\"%s_rain_%s\"," +
-            "\"dev\":{\"ids\":[\"%s_rain\"],\"name\":\"RainSensor\",\"mf\":\"Tasmota\",\"mdl\":\"Rain Gauge\"}}",
+            "\"dev\":{\"connections\":[[\"mac\",\"%s\"]],\"name\":\"RainSensor\"}}",
             s[1], topic, s[3], s[2], topic, mac, s[0], mac
         )
         mqtt.publish(t_url, payload, true)
