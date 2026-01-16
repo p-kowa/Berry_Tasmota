@@ -55,13 +55,10 @@ def mqtt_discovery()
             "\"unit_of_meas\":\"mm\"," +
             "\"dev_cla\":\"precipitation\"," + 
             "\"stat_cla\":\"%s\"," +
-            "\"sug_dsp_prc\":2," +
-            "\"val_tpl\":\"{{value_json.Rain.%s | default(0)}}\"," +
-            "\"avty_t\":\"tele/%s/LWT\"," +
-            "\"pl_avail\":\"Online\"," +
-            "\"pl_not_avail\":\"Offline\"," +
+            "\"val_tpl\":\"{{value_json.Rain_%s | default(0)}}\"," +
+            "\"avty\":[{\"t\":\"tele/%s/LWT\",\"pl_avail\":\"Online\",\"pl_not_avail\":\"Offline\"}]," +
             "\"uniq_id\":\"%s_rain_%s\"," +
-            "\"dev\":{\"connections\":[[\"mac\",\"%s\"]],\"name\":\"RainSensor\"}}",
+            "\"dev\":{\"ids\":[\"%s_rain\"],\"name\":\"RainSensor\",\"mf\":\"Tasmota\",\"mdl\":\"Rain Gauge\"}}",
             s[1], topic, s[3], s[2], topic, mac, s[0], mac
         )
         mqtt.publish(t_url, payload, true)
@@ -86,13 +83,9 @@ class RainDisplay : Driver
     var total = persist.has("total_rain") ? persist.total_rain : 0.0
     var today = persist.has("today_rain") ? persist.today_rain : 0.0
 
-    var msg = format(
-        ",\"Rain\":{" +
-        "\"Total\":%.2f," +
-        "\"Today\":%.2f" +
-        "}",
-        total, today
-    )
+    var msg = string.format(
+    ",\"Rain_Total\":%.2f,\"Rain_Today\":%.2f", 
+    total, today)
     tasmota.response_append(msg)
   end
 
